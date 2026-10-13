@@ -73,10 +73,9 @@ Distinguir cuello de botella, disponibilidad e integridad de los datos.
 | Prioridad y componente | Funcion | Efecto si es insuficiente | Efecto si falla | Evidencia y justificacion |
 |---|---|---|---|---|
 | 1. Disco (HDD Toshiba) | Guardar el Proxmox, la plantilla, las VM y las copias. | Cuello de botella con varias VM. | Pérdida de todo: host, servicios, datos y copias locales (disponibilidad e integridad). Es el componente cuyo fallo tiene mayor impacto | Un solo disco HDD de 7200 rpm, SMART. Es el único punto de fallo para los datos. |
-| 2. RAM | Memoria de Proxmox y de las VM. | Cuello de botella: con poca RAM aparece swap en el HDD o el kernel mata los procesos. | Si falla un módulo, el equipo puede no arrancar o quedarse con 4 GiB y no cabrian las 2 VM | 7,6 GiB visibles. Es el límite de cuántas VM caben.
- | 
-3. CPU | Cálculo de hosts y VM. | Cuello de botella con cargas simultáneas. | El host cae y todo con él. | Tiene 2 núcleos y 4 hilos. | 
-4. NIC | Acceso de los clientes al servidor. | Un enlace lento limita el uso del servicio desde el cliente, aunque 1 Gbit es suficiente para este laboratorio. | Sin red no hay acceso remoto. | Una unica NIC | 
+| 2. RAM | Memoria de Proxmox y de las VM. | Cuello de botella: con poca RAM aparece swap en el HDD o el kernel mata los procesos. | Si falla un módulo, el equipo puede no arrancar o quedarse con 4 GiB y no cabrian las 2 VM | 7,6 GiB visibles. Es el límite de cuántas VM caben.| 
+|3. CPU | Cálculo de hosts y VM. | Cuello de botella con cargas simultáneas. | El host cae y todo con él. | Tiene 2 núcleos y 4 hilos. | 
+|4. NIC | Acceso de los clientes al servidor. | Un enlace lento limita el uso del servicio desde el cliente, aunque 1 Gbit es suficiente para este laboratorio. | Sin red no hay acceso remoto. | Una unica NIC | 
 
 Componente que mejoraria primero y motivo para priorizarlo frente a otro:
 Un SSD frente a más RAM. Con este reparto la RAM alcanza para 2 VM y en cambio el HDD es a la vez el cuello de botella, riesgo de pérdida de datos y el factor que más se nota al arrancar varias VM. La RAM sería la segunda mejora, ya que hay slots libres.
