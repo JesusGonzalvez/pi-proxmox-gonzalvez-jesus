@@ -1,0 +1,7 @@
+NAME   FSTYPE FSVER LABEL   UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                             
+└─sda1 ext4   1.0           333c800a-e53f-4357-ad39-5a415b83beed  200,1G    51% /
+sdb                                                                             
+├─sdb1 exfat  1.0   Ventoy  4E21-0000                                15G     0% /media/usuario/Ventoy
+└─sdb2 vfat   FAT16 VTOYEFI 1B43-8741                                           
+sr0                                                                             
