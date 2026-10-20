@@ -29,6 +29,16 @@ Puertos necesarios: Puerto de proxmox: 8006, Puerto samba: 445 Puero SSH: 22
 | Servidor ASO | srv-aso | 192.168.56.30/24 | Servicio principl | Contenedor o Maquina virtual |
 | Cliente | cli-linux | 192.168.56.40/24 | Pruebas | Contenedor o Maquina Virtual |
 
+## Diagrama de red
+
+```mermaid
+flowchart TD
+  Internet["Internet o red centro"] --> PVE["pve-gonzalvez<br/>Nodo Proxmox<br/>vmbr0: 10.0.2.30"]
+  PVE --> BR["vmbr1 / red laboratorio<br/>192.168.56.20/24"]
+  BR --> SRV["srv-aso<br/>Servicio ASO<br/>192.168.56.30"]
+  BR --> CLI["cli-linux<br/>Cliente pruebas<br/>192.168.56.40"]
+  CLI -->|"Pruebas autorizadas"| SRV
+```
 
 ## Evidencias
 
