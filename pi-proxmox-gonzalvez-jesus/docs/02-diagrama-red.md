@@ -33,10 +33,10 @@ Puertos necesarios: Puerto de proxmox: 8006, Puerto samba: 445 Puero SSH: 22
 
 ```mermaid
 flowchart TD
-  Internet[Internet] --> PVE[pve-gonzalvez]
-  PVE --> BR[vmbr1 - 192.168.56.0/24]
-  BR --> SRV[srv-aso]
-  BR --> CLI[cli-linux]
+  Internet["Internet"] --> PVE["pve-gonzalvez<br/>10.0.2.30 / 192.168.56.20"]
+  PVE --> BR["vmbr1 - red laboratorio<br/>192.168.56.0/24"]
+  BR --> SRV["srv-aso<br/>192.168.56.30"]
+  BR --> CLI["cli-linux<br/>192.168.56.40"]
   CLI --> SRV
 ```
 
