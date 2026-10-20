@@ -33,11 +33,11 @@ Puertos necesarios: Puerto de proxmox: 8006, Puerto samba: 445 Puero SSH: 22
 
 ```mermaid
 flowchart TD
-  Internet["Internet o red centro"] --> PVE["pve-gonzalvez<br/>Nodo Proxmox<br/>vmbr0: 10.0.2.30"]
-  PVE --> BR["vmbr1 / red laboratorio<br/>192.168.56.20/24"]
-  BR --> SRV["srv-aso<br/>Servicio ASO<br/>192.168.56.30"]
-  BR --> CLI["cli-linux<br/>Cliente pruebas<br/>192.168.56.40"]
-  CLI -->|"Pruebas autorizadas"| SRV
+  Internet[Internet] --> PVE[pve-gonzalvez]
+  PVE --> BR[vmbr1 - 192.168.56.0/24]
+  BR --> SRV[srv-aso]
+  BR --> CLI[cli-linux]
+  CLI --> SRV
 ```
 
 ## Evidencias
