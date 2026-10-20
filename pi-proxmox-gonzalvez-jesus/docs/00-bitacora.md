@@ -14,6 +14,16 @@ las evidencias utiles; evita frases generales como "he trabajado en Proxmox".
 - Incidencias y solucion o estado pendiente: Ninguna.
 - Siguiente paso: Continuar con la fase 2.
 
+## Sesion 02 - 20/10/2026
+
+- Objetivo: diseñar la red de Proxmox antes de instalarlo (Fase 2).
+- Acciones realizadas: Rellenar el documento 02-diagrama-red.md.
+- Decisiones y motivos: Nodo: pve-gonzalvez con vmbr0 (salida a Internet) y vmbr1 (laboratorio 192.168.56.0/24). IP: nodo 192.168.56.20, srv-aso 192.168.56.30, cli-linux 192.168.56.40. Puertos: 8006, 22 y 445.
+- Pruebas y resultados: Ninguna todavía; se validarán al instalar Proxmox.
+- Documentos o evidencias: 02-diagrama-red.md.
+- Incidencias y solucion o estado pendiente: Ninguna.
+- Siguiente paso: Fase 3, instalación de Proxmox.
+
 Anadir una entrada con esta estructura en cada sesion. El historial de
 GitHub registra los commits; no hace falta incluir el hash del propio
 commit dentro de su entrada de bitacora.
