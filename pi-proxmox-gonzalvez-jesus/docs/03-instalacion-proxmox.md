@@ -73,7 +73,7 @@ Al terminar se quito la ISO y se reinició.
 
 Se editó /etc/network/interfaces para añadir vmbr1 (red de laboratorio y gestión) junto a vmbr0 (NAT):
 
-
+```
 auto lo
 iface lo inet loopback
 
@@ -97,7 +97,7 @@ iface vmbr1 inet static
         bridge-fd 0
 
 source /etc/network/interfaces.d/*
-
+```
 
 Se reinició y se comprobó con ip -br addr, ip route y hostname -i.
 
