@@ -38,7 +38,7 @@ Red solo-anfitrión (**Archivo → Herramientas → Red → Redes solo-anfitrió
 | Adaptador 1 | NAT | `nic0` | Salida a Internet (`vmbr0`) |
 | Adaptador 2 | Adaptador solo-anfitrión | `nic1` | Red de laboratorio y gestión (`vmbr1`) |
 
-En el Adaptador 2, *Avanzadas → Modo promiscuo = Permitir todo*.
+En el Adaptador 2, *Modo promiscuo = Permitir todo*.
 
 ### 5. Virtualización anidada
 
