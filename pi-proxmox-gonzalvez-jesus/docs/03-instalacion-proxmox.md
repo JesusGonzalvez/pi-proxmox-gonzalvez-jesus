@@ -107,21 +107,21 @@ El panel se abre desde el navegador del anfitrión en https://192.168.56.20:8006
 
 ### Panel de Proxmox
 
-![Panel de Proxmox](img/s03-panel-proxmox.png)
+![Panel de Proxmox](../evidencias/capturas-o-salidas/s03-panel-proxmox.png)
 
 ### Red
 
-![Red del nodo](img/s03-red-proxmox.png)
+![Red del nodo](../evidencias/capturas-o-salidas/s03-red-proxmox.png)
 
 ### Almacenamiento
 
-![Almacenamiento](img/s03-almacenamiento-proxmox.png)
+![Almacenamiento](../evidencias/capturas-o-salidas/s03-almacenamiento-proxmox.png)
 
 ### Salida de comandos
 
 Salida de hostnamectl, ip -br addr, pveversion y df -h:
 
-![Salida de comandos](img/s03-salida-comandos.png)
+![Salida de comandos](../evidencias/capturas-o-salidas/s03-salida-comandos.png)
 
 ## Incidencias
 
