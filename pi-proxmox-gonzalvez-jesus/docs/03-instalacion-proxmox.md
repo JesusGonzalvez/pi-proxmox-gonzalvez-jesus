@@ -46,6 +46,7 @@ Con la VM apagada se activó la virtualización anidada y se comprobó:
 
 
 & "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" modifyvm "pve-gonzalvez" --nested-hw-virt on
+
 & "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" showvminfo "pve-gonzalvez" | findstr /i nested
 
 
