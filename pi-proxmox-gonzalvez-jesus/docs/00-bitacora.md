@@ -24,6 +24,16 @@ las evidencias utiles; evita frases generales como "he trabajado en Proxmox".
 - Incidencias y solucion o estado pendiente: Ninguna.
 - Siguiente paso: Fase 3, instalación de Proxmox.
 
+## Sesion 03 - 27/10/2026
+
+- Objetivo: instalar Proxmox VE (Fase 3) en una VM de VirtualBox y configurar su red según 02-diagrama-red.md.
+- Acciones realizadas: Crear la VM pve-gonzalvez (6 CPU, 10 GB de RAM, VDI de 80 GB) con adaptador 1 NAT y adaptador 2 solo-anfitrión. Instalar Proxmox VE 9.2 con IP 10.0.2.30/24 (vmbr0) y añadir vmbr1 con 192.168.56.20/24. Acceso al panel de Proxmox en https://192.168.56.20:8006.
+- Decisiones y motivos: Instalación virtualizada en VirtualBox en lugar de en el equipo físico (no hay equipos fisicos donde realizarlo). No se mantiene desactivada la seguridad de virtualización de Windows, por lo que no hay KVM anidado.
+- Pruebas y resultados: Panel accesible y ip -br addr con vmbr0 10.0.2.30/24 y vmbr1 192.168.56.20/24 en UP. El instalador avisó de que no detecta KVM aunque AMD-V está activo en la BIOS.
+- Documentos o evidencias: 03-instalacion-proxmox.md y capturas s03 en evidencias/capturas-o-salidas.
+- Incidencias y solucion o estado pendiente: Error 401 en el login por usar el dominio pve en vez de Linux PAM (resuelto). Sin KVM anidado por la seguridad basada en virtualización de Windows (documentado).
+- Siguiente paso: Continuar con la fase 4.
+
 Anadir una entrada con esta estructura en cada sesion. El historial de
 GitHub registra los commits; no hace falta incluir el hash del propio
 commit dentro de su entrada de bitacora.
