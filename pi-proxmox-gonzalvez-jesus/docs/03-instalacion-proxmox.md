@@ -77,7 +77,7 @@ iface vmbr0 inet static
         bridge-stp off
         bridge-fd 0
         
-iface nic1 inet manual/24
+iface nic1 inet manual
 
 auto vmbr1
 iface vmbr1 inet static
