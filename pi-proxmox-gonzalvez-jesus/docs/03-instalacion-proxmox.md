@@ -150,7 +150,7 @@ df -h
 ![Almacenamiento](../evidencias/capturas-o-salidas/s04-Almacenamiento.png)
 
 
-Comprobamos que el espacio de cada almacenamiento coincide con lo que muestra Datacenter → Storage, y que backups aparece como active en pvesm status. local-lvm solo admite discos de máquinas y contenedores, ni ISO ni copias, por eso las copias van a backups.
+Comprobamos que el espacio de cada almacenamiento coincide con lo que muestra Datacenter → Storage, y que backups aparece como active en pvesm status. local-lvm solo admite discos de máquinas y contenedores, no adnite ISO ni copias, por eso las copias van a backups.
 
 Disco anfitrión → VDI de Proxmox → grupo pve → discos de srv-aso y cli-linux → sistema de archivos de cada invitado. Cada capa usa espacio de la anterior.
 
