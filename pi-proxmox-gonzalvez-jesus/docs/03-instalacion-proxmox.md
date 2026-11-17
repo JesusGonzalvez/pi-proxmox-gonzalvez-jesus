@@ -166,5 +166,26 @@ Riesgo: el laboratorio y las copias están en el mismo disco físico. Si ese dis
 
 Pendiente: la copia real, que se hará en la fase 9.
 
+### 2. Interfaces y red
+
+En Nodo → System → Network identificamos las interfaces, los bridges y la dirección de gestión:
+
+![Red](../evidencias/capturas-o-salidas/s04-red.png)
+
+```
+ip -br addr
+ip route
+apt update
+```
+
+![Comandos de red](../evidencias/capturas-o-salidas/s04-comandos.png)
+
+| Bridge | Interfaz | Adaptador de VirtualBox | IP | Gateway |
+|---|---|---|---|---|
+| vmbr0 | nic0 | Adaptador 1 (NAT) | 10.0.2.30/24 | 10.0.2.2 |
+| vmbr1 | nic1 | Adaptador 2 (solo-anfitrión) | 192.168.56.20/24 | n/a |
+
+Comprobamos que la IP, la máscara y el gateway coinciden con 02-diagrama-red.md. La dirección de gestión es 192.168.56.20 (vmbr1), y desde el anfitrión se abre el panel en https://192.168.56.20:8006. El nodo resuelve nombres y funciona apt update aunque los errores son porque intenta descargar repositorios pero son de pago.
+
 
 [Volver al índice](../README.md)
