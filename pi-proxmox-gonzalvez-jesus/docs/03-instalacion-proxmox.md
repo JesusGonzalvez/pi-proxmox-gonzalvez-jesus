@@ -160,7 +160,7 @@ Disco anfitrión → VDI de Proxmox → grupo pve → discos de srv-aso y cli-li
 | Disco de srv-aso y cli-linux | local-lvm | Admite discos de VM y contenedores |
 | Copias de seguridad | backups | Contenido de backup habilitado y disponible en pvesm status |
 
-Espacio libre en el disco del anfitrión: 116GB libres. El VDI es dinámico y puede crecer hasta 80 GB, así que el disco del anfitrión debe poder alojar ese crecimiento, aunque Proxmox vea ese espacio como suyo.
+Espacio libre en el disco del anfitrión: 116GB libres. El VDI es dinámico y puede crecer hasta 80 GB, así que el disco del anfitrión puede alojar ese crecimiento, aunque Proxmox vea ese espacio como suyo.
 
 Riesgo: el laboratorio y las copias están en el mismo disco físico. Si ese disco falla, se pierden a la vez el VDI, los discos de las máquinas y las copias.
 
