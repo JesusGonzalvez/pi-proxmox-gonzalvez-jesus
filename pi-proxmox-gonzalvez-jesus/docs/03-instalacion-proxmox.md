@@ -8,7 +8,7 @@ Instalar Proxmox VE dentro de una máquina virtual de VirtualBox y configurar su
 
 | Elemento | Valor |
 |---|---|
-| Anfitrión | Windows (CPU AMD) |
+| Anfitrión | Linux (PC instituto) |
 | Versión de VirtualBox | VirtualBox 7.2.20 |
 | Nombre de la VM | pve-gonzalvez |
 | Tipo / versión | Linux / Debian |
