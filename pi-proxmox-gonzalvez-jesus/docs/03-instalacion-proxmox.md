@@ -113,6 +113,12 @@ Salida de hostnamectl, ip -br addr, pveversion y df -h:
 
 ![Salida de comandos](../evidencias/capturas-o-salidas/s03-salida-comandos.png)
 
+### KVM
+
+Comprobacion de si KVM está disponible
+
+![KVM](../evidencias/capturas-o-salidas/s03-KVM.png)
+
 ## Incidencias
 
 **1. Error 401 en el login del panel.** Se intentaba entrar con el dominio *Proxmox VE authentication server* (root@pve), donde el usuario no existe. El log de pvedaemon mostraba no such user ('root@pve').
