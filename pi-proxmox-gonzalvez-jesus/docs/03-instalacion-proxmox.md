@@ -119,14 +119,9 @@ Comprobacion de si KVM está disponible
 
 ![KVM](../evidencias/capturas-o-salidas/s03-KVM.png)
 
-## Incidencias
-
-**1. Error 401 en el login del panel.** Se intentaba entrar con el dominio *Proxmox VE authentication server* (root@pve), donde el usuario no existe. El log de pvedaemon mostraba no such user ('root@pve').
-*Solución:* usar el dominio **Linux PAM standard authentication**.
-
 
 ## Conclusión
 
-Se instaló Proxmox VE en una VM de VirtualBox con 3 CPU, 8 GB de RAM y 80 GB de disco. La red de gestión está en vmbr1 (192.168.56.20/24) y la salida a Internet en vmbr0 (10.0.2.30/24), según el diseño de 02-diagrama-red.md. El panel es accesible desde el navegador del anfitrión en https://192.168.56.20:8006. El nesting no pudo usarse por la seguridad basada en virtualización de Windows, lo que queda documentado en Incidencias.
+Se instaló Proxmox VE en una VM de VirtualBox con 3 CPU, 8 GB de RAM y 80 GB de disco. La red de gestión está en vmbr1 (192.168.56.20/24) y la salida a Internet en vmbr0 (10.0.2.30/24), según el diseño de 02-diagrama-red.md. El panel es accesible desde el navegador del anfitrión en https://192.168.56.20:8006. El nesting no pudo usarse por la seguridad basada en virtualización de Windows, lo que queda documentado en Incidencias. La virtualización anidada está disponible: se comprobó con "/dev/kvm".
 
 [Volver al índice](../README.md)
