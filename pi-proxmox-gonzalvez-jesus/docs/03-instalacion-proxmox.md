@@ -12,7 +12,7 @@ Instalar Proxmox VE dentro de una máquina virtual de VirtualBox y configurar su
 | Versión de VirtualBox | VirtualBox 7.2.20 |
 | Nombre de la VM | pve-gonzalvez |
 | Tipo / versión | Linux / Debian |
-| CPU / RAM / disco | 3 CPU / 8 GB (10240 MB) / 80 GB VDI |
+| CPU / RAM / disco | 3 CPU / 8 GB (8192 MB) / 80 GB VDI |
 | ISO | proxmox-ve_9.2-1.iso |
 
 ## Procedimiento
