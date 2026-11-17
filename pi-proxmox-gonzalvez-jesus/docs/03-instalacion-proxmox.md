@@ -124,4 +124,47 @@ Comprobacion de si KVM está disponible
 
 Se instaló Proxmox VE en una VM de VirtualBox con 3 CPU, 8 GB de RAM y 80 GB de disco. La red de gestión está en vmbr1 (192.168.56.20/24) y la salida a Internet en vmbr0 (10.0.2.30/24), según el diseño de 02-diagrama-red.md. El panel es accesible desde el navegador del anfitrión en https://192.168.56.20:8006. El nesting no pudo usarse por la seguridad basada en virtualización de Windows, lo que queda documentado en Incidencias. La virtualización anidada está disponible: se comprobó con "/dev/kvm".
 
+## Fase 4. Configuración base del nodo
+
+### 1. Almacenamiento
+
+En la conexion del nodo entramos en Datacenter > Storage y revisamos el almacenamiento:
+
+
+| Almacenamiento | Para qué sirve | Contenido que admite | Espacio libre |
+|---|---|---|---|
+| local | Guardar ISO, plantillas de contenedor y copias | ISO, plantillas de contenedor, copias de seguridad e importación | 23,6 GiB libres |
+| local-lvm | Guardar los discos de las máquinas y contenedores | Imágenes de disco y discos de contenedor | 29,9 GiB libres |
+| backups | Guardar las copias de la fase 9 | Copias de seguridad | 23,6 GiB libres |
+
+```
+mkdir -p /srv/backups
+pvesm add dir backups --path /srv/backups --content backup
+pvesm status
+df -h
+```
+
+
+![Backup](../evidencias/capturas-o-salidas/s04-backup.png)
+
+![Almacenamiento](../evidencias/capturas-o-salidas/s04-Almacenamiento.png)
+
+
+Comprobamos que el espacio de cada almacenamiento coincide con lo que muestra Datacenter → Storage, y que backups aparece como active en pvesm status. local-lvm solo admite discos de máquinas y contenedores, ni ISO ni copias, por eso las copias van a backups.
+
+Disco anfitrión → VDI de Proxmox → grupo pve → discos de srv-aso y cli-linux → sistema de archivos de cada invitado. Cada capa usa espacio de la anterior.
+
+| Contenido | Destino | Motivo |
+|---|---|---|
+| ISO de instalación | local | Admite ISO y tiene espacio libre |
+| Disco de srv-aso y cli-linux | local-lvm | Admite discos de VM y contenedores |
+| Copias de seguridad | backups | Contenido de backup habilitado y disponible en pvesm status |
+
+Espacio libre en el disco del anfitrión: 116GB libres. El VDI es dinámico y puede crecer hasta 80 GB, así que el disco del anfitrión debe poder alojar ese crecimiento, aunque Proxmox vea ese espacio como suyo.
+
+Riesgo: el laboratorio y las copias están en el mismo disco físico. Si ese disco falla, se pierden a la vez el VDI, los discos de las máquinas y las copias.
+
+Pendiente: la copia real, que se hará en la fase 9.
+
+
 [Volver al índice](../README.md)
