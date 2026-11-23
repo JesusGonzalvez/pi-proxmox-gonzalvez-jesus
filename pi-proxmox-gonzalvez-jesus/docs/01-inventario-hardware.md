@@ -2,11 +2,13 @@
 
 ## Contexto de la observacion
 
-- Fecha y sistema utilizado: 13/10/26 LLiurex.
-- Modalidad, equipo anfitrión y VM VirtualBox si procede: Modalidad fisica, Proxmox se instalaría directamente sobre este equipo.
+- Fecha y sistema utilizado: 13/10/26 Lliurex.
+- Modalidad, equipo anfitrión y VM VirtualBox: Equipo físico evaluado (el siguiente inventario). Modalidad final: Proxmox virtualizado en una VM de VirtualBox sobre un anfitrión Linux del instituto (ir a Plataforma real: Proxmox en VirtualBox).
 - Version de Proxmox prevista: Proxmox VE 9.2.
 
 ## Inventario inicial
+
+Equipo físico evaluado (opción descartada; la plataforma real está más abajo).
 
 | Area | Dato observado y evidencia | Especificacion y fuente | Limite o diferencia | Justificacion |
 |---|---|---|---|---|
@@ -15,6 +17,20 @@
 | Almacenamiento | CrystalDiskInfo: HDD TOSHIBA DT01ACA050, 500.1 GB, SATA/600, 7200 RPM. | Hoja de datos del TOSHIBA DT01ACA050 | HDD mecánico único, sin redundancia. | Basta para el proyecto en espacio (minimo 465 GiB). Es un HDD, no un SSD, y todo el servicio dependerá de él. |
 | Red |	HWiNFO: RealTek RTL8168/8111 PCI-E Gigabit Ethernet NIC. | Realtek RTL8111/8168, 1000 Mbps máx. (HWiNFO). | No se midió la velocidad real, porque no había cable. | Una NIC Gigabit cumple para gestión y tráfico de 2 invitados con un único puente. |
 | Plataforma | CPU-Z: ASUS PRIME B250M-A, chipset B250, BIOS AMI 0810 del 09/08/2017. | Pagina de soporte ASUS | BIOS de 2017, no consta si arranca en UEFI o Legacy. | La placa es compatible con el G4560. |
+
+## Plataforma real: Proxmox en VirtualBox
+
+La viabilidad de este documento se evaluó para instalar Proxmox en un equipo físico. Finalmente se usara una VM de VirtualBox y esta sección recoge los datos reales.
+
+| Elemento | Dato |
+|---|---|
+| Anfitrión | Linux (PC del instituto), ((CPU y RAM del equipo del instituto)), 116 GB libres en disco |
+| VirtualBox | 7.2.20 |
+| VM pve-gonzalvez | 3 vCPU, 8 GB de RAM, VDI de 80 GB |
+| Red | Adaptador 1 NAT (10.0.2.0/24) y adaptador 2 solo-anfitrión (192.168.56.0/24) |
+| Virtualización anidada | Esta disponible en /dev/kvm (ir a 03-instalacion-proxmox.md) |
+
+El reparto de recursos está en la Fase 4 de 03-instalacion-proxmox.md y sustituye al reparto previsto para el equipo físico de más abajo.
 
 ## 1. Puedo instalar Proxmox en este equipo?
 
@@ -39,6 +55,8 @@ RAM reservada al anfitrion, vCPU, VDI, espacio fisico y red local.
 No se utiliza el Proxmox del centro como recurso.
 
 ### Reparto de recursos
+
+Reparto previsto para el equipo físico; el vigente está en la Fase 4 de 03-instalacion-proxmox.md.
 
 | Elemento | CPU/vCPU | RAM | Disco | Justificacion |
 |---|---|---|---|---|
@@ -73,9 +91,9 @@ Distinguir cuello de botella, disponibilidad e integridad de los datos.
 | Prioridad y componente | Funcion | Efecto si es insuficiente | Efecto si falla | Evidencia y justificacion |
 |---|---|---|---|---|
 | 1. Disco (HDD Toshiba) | Guardar el Proxmox, la plantilla, las VM y las copias. | Cuello de botella con varias VM. | Pérdida de todo: host, servicios, datos y copias locales (disponibilidad e integridad). Es el componente cuyo fallo tiene mayor impacto | Un solo disco HDD de 7200 rpm, SMART. Es el único punto de fallo para los datos. |
-| 2. RAM | Memoria de Proxmox y de las VM. | Cuello de botella: con poca RAM aparece swap en el HDD o el kernel mata los procesos. | Si falla un módulo, el equipo puede no arrancar o quedarse con 4 GiB y no cabrian las 2 VM | 7,6 GiB visibles. Es el límite de cuántas VM caben.| 
-|3. CPU | Cálculo de hosts y VM. | Cuello de botella con cargas simultáneas. | El host cae y todo con él. | Tiene 2 núcleos y 4 hilos. | 
-|4. NIC | Acceso de los clientes al servidor. | Un enlace lento limita el uso del servicio desde el cliente, aunque 1 Gbit es suficiente para este laboratorio. | Sin red no hay acceso remoto. | Una unica NIC | 
+| 2. RAM | Memoria de Proxmox y de las VM. | Cuello de botella: con poca RAM aparece swap en el HDD o el kernel mata los procesos. | Si falla un módulo, el equipo puede no arrancar o quedarse con 4 GiB y no cabrian las 2 VM | 7,6 GiB visibles. Es el límite de cuántas VM caben.|
+|3. CPU | Cálculo de hosts y VM. | Cuello de botella con cargas simultáneas. | El host cae y todo con él. | Tiene 2 núcleos y 4 hilos. |
+|4. NIC | Acceso de los clientes al servidor. | Un enlace lento limita el uso del servicio desde el cliente, aunque 1 Gbit es suficiente para este laboratorio. | Sin red no hay acceso remoto. | Una unica NIC |
 
 Componente que mejoraria primero y motivo para priorizarlo frente a otro:
 Un SSD frente a más RAM. Con este reparto la RAM alcanza para 2 VM y en cambio el HDD es a la vez el cuello de botella, riesgo de pérdida de datos y el factor que más se nota al arrancar varias VM. La RAM sería la segunda mejora, ya que hay slots libres.
@@ -95,12 +113,13 @@ fabricante o plataforma virtual. Relacionarlas con las tres respuestas.
 
 ## Dictamen de viabilidad
 
-Apto, apto con condiciones o no apto para la propuesta actual: 
+Apto, apto con condiciones o no apto para la propuesta actual:
 Apto con condiciones para la propuesta actual (srv-aso y cli-linux).
     • Cumple los requisitos de Proxmox y admite 2 VM ligeras a la vez.
     • Las limitaciones son el HDD, la RAM y la ausencia de redundancia.
     • Las condiciones son las cinco del apartado 1: copia de los datos, VT-x/KVM, cable de red, arranque desde el USB y versión de Proxmox.
-    
+
+Plataforma real (VirtualBox): apta. La VM de 3 vCPU, 8 GB y 80 GB ejecuta Proxmox con KVM disponible y el disco del anfitrión tiene 116 GB libres para alojar el VDI. Limitaciones: un único disco sin redundancia y recursos de la VM ajustados.
 
 Sintetizar las tres respuestas y las condiciones pendientes de comprobar.
 
