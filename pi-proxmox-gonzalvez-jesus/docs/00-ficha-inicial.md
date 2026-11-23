@@ -3,13 +3,13 @@
 | Campo | Contenido |
 |---|---|
 | Identificador del alumno | Jesus Gonzalvez |
-| URL GitHub | https://github.com/JesusGonzalvez/pi-proxmox-gonzalvez-jesus/tree/main/pi-proxmox-gonzalvez-jesus |
+| URL GitHub | https://github.com/JesusGonzalvez/pi-proxmox-gonzalvez-jesus |
 | Acceso docente comprobado | Sí |
-| Modalidad fisica o virtualizada | Física |
-| Recursos conocidos | Intel Pentium G4560 (2N/4H), 8 GB RAM DDR4, HDD 500 GB |
-| Nombre del nodo | pve-jesus |
-| Servicio ASO previsto | Proxmox VE 9.2 |
-| Red de laboratorio | 172.20.10.0/24 |
-| Riesgos y dudas iniciales | Rendimiento limitado por uso de HDD y 8 GB de RAM |
+| Modalidad fisica o virtualizada | Virtualizada: Proxmox VE 9.2 en una VM de VirtualBox |
+| Recursos conocidos | VM de 3 vCPU, 8 GB de RAM y VDI de 80 GB, sobre un anfitrión Linux del instituto (⟨CPU y RAM del equipo⟩) |
+| Nombre del nodo | pve-gonzalvez |
+| Servicio ASO previsto | Samba (puerto 445) |
+| Red de laboratorio | 192.168.56.0/24 (vmbr1, solo-anfitrión); salida a Internet por vmbr0 (NAT, 10.0.2.0/24) |
+| Riesgos y dudas iniciales | Un único disco sin redundancia, recursos limitados de la VM y virtualización anidada |
 
 [Volver al indice](../README.md)
