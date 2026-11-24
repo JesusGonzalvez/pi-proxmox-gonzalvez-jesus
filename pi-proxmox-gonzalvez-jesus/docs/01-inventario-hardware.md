@@ -24,7 +24,8 @@ La viabilidad de este documento se evaluó para instalar Proxmox en un equipo f�
 
 | Elemento | Dato |
 |---|---|
-| Anfitrión | Linux (PC del instituto), ((CPU y RAM del equipo del instituto)), 116 GB libres en disco |
+| Anfitrión | Linux (PC del instituto), Intel Core i3-12100 (4 núcleos, 8 hilos), 15 GiB de RAM y 116 GB libres en disco |
+| RAM reservada al anfitrión | 15 − 8 = 7 GiB (47 % de la RAM del equipo) |
 | VirtualBox | 7.2.20 |
 | VM pve-gonzalvez | 3 vCPU, 8 GB de RAM, VDI de 80 GB |
 | Red | Adaptador 1 NAT (10.0.2.0/24) y adaptador 2 solo-anfitrión (192.168.56.0/24) |
