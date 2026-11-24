@@ -153,21 +153,23 @@ lvs -o lv_name,vg_name,lv_size,segtype,data_percent,metadata_percent
 
 | Dispositivo | Tamaño | Particiones o volúmenes | Uso | VDI |
 |---|---|---|---|---|
-| /dev/sda (VBOX_HARDDISK) | 80 GiB (85,90 GB en el panel, que usa GB decimales) | sda1 BIOS boot (1007K), sda2 EFI (512M, vfat) y sda3 (79,5 GiB), volumen físico LVM del grupo pve | Arranque y volumen físico | ⟨nombre del .vdi⟩ |
-| Grupo pve (sobre sda3) | 79,5 GiB, con 9,88 GiB sin asignar | pve-root 29,9 GiB (ext4, montado en /), pve-swap 7,8 GiB y el thin pool pve-data 29,9 GiB (1 GiB de metadatos) | pve-root usa 4,2 GiB (15 %); el pool, 0,00 % de datos y 1,58 % de metadatos | El mismo VDI |
+| /dev/sda (VBOX_HARDDISK) | 80 GiB (85,90 GB en el panel, que usa GB decimales) | sda1 BIOS boot (1007K), sda2 EFI (512M, vfat) y sda3 (79,5 GiB), volumen físico LVM del grupo pve | Arranque y volumen físico | pve-gonzalvez.vdi (disco base) más el disco diferencial de la instantánea activa (Snapshots/{233149dc-...}.vdi) |
+| Grupo pve (sobre sda3) | 79,5 GiB, con 9,88 GiB sin asignar | pve-root 29,9 GiB (ext4, montado en /), pve-swap 7,8 GiB y el thin pool pve-data 29,9 GiB (1 GiB de metadatos) | pve-root usa 4,2 GiB (15 %); el pool, 0,00 % de datos y 1,58 % de metadatos | El mismo disco |
 
 El sistema de archivos raíz está en el volumen lógico pve-root (findmnt /), que depende del grupo pve y este de la partición sda3 del VDI. En el thin pool, Data% y Meta% son porcentajes del pool, no el espacio libre dentro de srv-aso. El grupo conserva además 9,88 GiB sin asignar, que no pertenecen a ningún almacenamiento.
 
-### 2. Almacenamiento
+La VM tiene una instantánea: el disco base pve-gonzalvez.vdi queda en solo lectura y las escrituras van al disco diferencial de la carpeta Snapshots. Ambos archivos están en la partición del anfitrión que tiene 116 GB libres, y el espacio que ocupan sigue dependiendo de ese disco físico.
+
+#### Relaciona cada almacenamiento con su contenido
 
 En la conexion del nodo entramos en Datacenter > Storage y revisamos el almacenamiento:
 
 
-| Almacenamiento | Para qué sirve | Contenido que admite | Espacio libre |
-|---|---|---|---|
-| local | Guardar ISO, plantillas de contenedor y copias | ISO, plantillas de contenedor, copias de seguridad e importación | 23,6 GiB libres |
-| local-lvm | Guardar los discos de las máquinas y contenedores | Imágenes de disco y discos de contenedor | 29,9 GiB libres |
-| backups | Guardar las copias de la fase 9 | Copias de seguridad | 23,6 GiB libres |
+| Almacenamiento | Backend | Ruta o pool real | Disco que lo sostiene | Contenido habilitado | Espacio disponible |
+|---|---|---|---|---|---|
+| local | Directory | /var/lib/vz | Volumen lógico pve-root (ext4), en el VDI | Backup, Import, ISO image y Container template | 23,6 GiB |
+| local-lvm | LVM-thin | Thin pool pve-data del grupo pve | Grupo pve (sobre sda3), en el VDI | Disk image y Container | 29,9 GiB |
+| backups | Directory | /srv/backups | Volumen lógico pve-root (el mismo que local), en el VDI | Backup | 23,6 GiB |****
 
 ```
 mkdir -p /srv/backups
