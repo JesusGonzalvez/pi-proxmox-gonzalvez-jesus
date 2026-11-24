@@ -223,7 +223,7 @@ free -h
 | Nodo Proxmox | 3 vCPU (VM) | 8 GB en total (7,8 GiB visibles); el nodo usa 1,6 GiB y se reservan 2 GB | VDI de 80 GB | Poder administrar el nodo con las máquinas en marcha |
 | srv-aso | 2 | 2 GB | 10 GB | Servicio principal con carga ligera |
 | cli-linux | 2 | 2 GB | 10 GB | Cliente de pruebas, mismo tamaño para clonar de una plantilla |
-| Plantillas, ISO, copias y margen | n/a | 2,2 GiB libres (7,8 − 1,6 − 4) | 9,9 GiB libres en local-lvm (29,9 − 20) y 23,6 GiB en local | La plantilla va en local-lvm, las ISO y copias, en local y backups |
+| Plantillas, ISO, copias y margen |  | 2,2 GiB libres (7,8 − 1,6 − 4) | 9,9 GiB libres en local-lvm (29,9 − 20) y 23,6 GiB en local | La plantilla va en local-lvm, las ISO y copias, en local y backups |
 
 Medido con free -h: el nodo usa 1,6 GiB de 7,8 GiB con las máquinas apagadas. Al encender srv-aso y cli-linux (2 GB cada uno), el uso previsto es de unos 5,6 GiB, que deja 2,2 GiB libres.
 
