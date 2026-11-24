@@ -8,7 +8,7 @@ Instalar Proxmox VE dentro de una máquina virtual de VirtualBox y configurar su
 
 | Elemento | Valor |
 |---|---|
-| Anfitrión | Linux (PC instituto) |
+| Anfitrión | Linux (PC del instituto), Intel Core i3-12100 (4 núcleos, 8 hilos), 15 GiB de RAM |
 | Versión de VirtualBox | VirtualBox 7.2.20 |
 | Nombre de la VM | pve-gonzalvez |
 | Tipo / versión | Linux / Debian |
@@ -186,6 +186,54 @@ apt update
 | vmbr1 | nic1 | Adaptador 2 (solo-anfitrión) | 192.168.56.20/24 | |
 
 Comprobamos que la IP, la máscara y el gateway coinciden con 02-diagrama-red.md. La dirección de gestión es 192.168.56.20 (vmbr1), y desde el anfitrión se abre el panel en https://192.168.56.20:8006. El nodo resuelve nombres y accede a los repositorios de Debian, porque apt update descarga sus listas. Los repositorios enterprise de Proxmox devuelven error 401 porque requieren suscripcion de pago. 
+
+### 3. Accesos de administración
+
+```
+pveum user list
+pveum acl list
+pve-firewall status
+```
+
+![comandos](../evidencias/capturas-o-salidas/s04-pveum.png)
+
+![Usuarios](../evidencias/capturas-o-salidas/s04-usuarios.png)
+
+La cuenta de administración es root@pam (Linux PAM), que se usa en el panel (https://192.168.56.20:8006) y en la consola del nodo. Tiene permisos totales sobre el nodo, y pveum acl list no muestra reglas adicionales. No se han creado otros usuarios ni roles. Las contraseñas no aparecen en capturas ni en el repositorio.
+
+El firewall de Proxmox no es obligatorio en esta práctica y se deja desactivado, según pve-firewall status. Aislamiento del laboratorio: la red 192.168.56.0/24 es solo-anfitrión, el panel solo se abre desde el anfitrión y de momento, el nodo no reenvía el tráfico de vmbr1 hacia Internet. 
+
+Pendiente: si se acuerda activar el firewall, preparar antes las reglas y el acceso por la consola de VirtualBox.
+
+### 4. Reparto de recursos
+
+Presupuesto de la sesión 01 (equipo físico): 2 GB y 2 vCPU para srv-aso y para cli-linux, con 1,6 GB de RAM de margen. Se actualiza con lo observado tras instalar Proxmox en una VM de 3 vCPU, 8 GB de RAM y VDI de 80 GB, sobre un anfitrión con 8 hilos y 15 GiB de RAM.
+
+```
+nproc
+free -h
+```
+
+![Resumen del nodo](../evidencias/capturas-o-salidas/s04-nproc.png)
+
+![Resumen del nodo](../evidencias/capturas-o-salidas/s04-resumen.png)
+
+| Elemento | CPU/vCPU | RAM | Disco o almacenamiento | Motivo del reparto |
+|---|---|---|---|---|
+| Nodo Proxmox | 3 vCPU (VM) | 8 GB en total (7,8 GiB visibles); el nodo usa 1,6 GiB y se reservan 2 GB | VDI de 80 GB | Poder administrar el nodo con las máquinas en marcha |
+| srv-aso | 2 | 2 GB | 10 GB | Servicio principal con carga ligera |
+| cli-linux | 2 | 2 GB | 10 GB | Cliente de pruebas, mismo tamaño para clonar de una plantilla |
+| Plantillas, ISO, copias y margen | n/a | 2,2 GiB libres (7,8 − 1,6 − 4) | 9,9 GiB libres en local-lvm (29,9 − 20) y 23,6 GiB en local | La plantilla va en local-lvm, las ISO y copias, en local y backups |
+
+Medido con free -h: el nodo usa 1,6 GiB de 7,8 GiB con las máquinas apagadas. Al encender srv-aso y cli-linux (2 GB cada uno), el uso previsto es de unos 5,6 GiB, que deja 2,2 GiB libres.
+
+El disco por máquina baja de los 80 y 50 GiB previstos en el equipo físico a 10 GB cada una, porque local-lvm solo tiene 29,9 GiB y el aprovisionamiento ligero no debe llenarse.
+
+Reserva para el anfitrión: 15 − 8 = 7 GiB de RAM y 5 de los 8 hilos. Los dos invitados suman 4 vCPU sobre las 3 de la VM, aceptable porque no estarán al máximo a la vez.
+
+Comprobado: el reparto permite administrar el nodo con servidor y cliente encendidos.
+
+Pendiente: ajustar el reparto si el rendimiento no es suficiente (fase 10).
 
 
 [Volver al índice](../README.md)
