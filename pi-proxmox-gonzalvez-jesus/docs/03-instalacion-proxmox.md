@@ -149,7 +149,7 @@ vgs
 lvs -o lv_name,vg_name,lv_size,segtype,data_percent,metadata_percent
 ```
 
-![Volúmenes LVM](../evidencias/capturas-o-salidas/s04-lvm.png)
+![Volúmenes LVM](../evidencias/capturas-o-salidas/s04-discos-lvm.png)
 
 | Dispositivo | Tamaño | Particiones o volúmenes | Uso | VDI |
 |---|---|---|---|---|
