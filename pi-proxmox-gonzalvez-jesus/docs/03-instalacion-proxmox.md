@@ -124,9 +124,41 @@ Comprobacion de si KVM está disponible
 
 Se instaló Proxmox VE en una VM de VirtualBox con 3 CPU, 8 GB de RAM y 80 GB de disco. La red de gestión está en vmbr1 (192.168.56.20/24) y la salida a Internet en vmbr0 (10.0.2.30/24), según el diseño de 02-diagrama-red.md. El panel es accesible desde el navegador del anfitrión en https://192.168.56.20:8006. El nesting no pudo usarse por la seguridad basada en virtualización de Windows, lo que queda documentado en Incidencias. La virtualización anidada está disponible: se comprobó con "/dev/kvm".
 
-## Fase 4. Configuración base del nodo
+### 1. Revisa dónde se guardará cada cosa
 
-### 1. Almacenamiento
+### 1. Identificación de discos
+
+En Nodo → Discos localizamos el disco donde está instalado Proxmox: es el VDI de 80 GB de VirtualBox. El disco físico que guarda ese VDI pertenece al anfitrión, así que son dos niveles distintos.
+
+![Nodo → Discos](../evidencias/capturas-o-salidas/s04-nodo.png)
+
+```
+lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS
+findmnt /
+pvesm status
+df -h
+```
+
+![Consola: discos y almacenamientos](../evidencias/capturas-o-salidas/s04-discos.png)
+
+La instalación usa LVM con un thin pool, así que se consultan también los volúmenes:
+
+```
+pvs
+vgs
+lvs -o lv_name,vg_name,lv_size,segtype,data_percent,metadata_percent
+```
+
+![Volúmenes LVM](../evidencias/capturas-o-salidas/s04-lvm.png)
+
+| Dispositivo | Tamaño | Particiones o volúmenes | Uso | VDI |
+|---|---|---|---|---|
+| /dev/sda (VBOX_HARDDISK) | 80 GiB (85,90 GB en el panel, que usa GB decimales) | sda1 BIOS boot (1007K), sda2 EFI (512M, vfat) y sda3 (79,5 GiB), volumen físico LVM del grupo pve | Arranque y volumen físico | ⟨nombre del .vdi⟩ |
+| Grupo pve (sobre sda3) | 79,5 GiB, con 9,88 GiB sin asignar | pve-root 29,9 GiB (ext4, montado en /), pve-swap 7,8 GiB y el thin pool pve-data 29,9 GiB (1 GiB de metadatos) | pve-root usa 4,2 GiB (15 %); el pool, 0,00 % de datos y 1,58 % de metadatos | El mismo VDI |
+
+El sistema de archivos raíz está en el volumen lógico pve-root (findmnt /), que depende del grupo pve y este de la partición sda3 del VDI. En el thin pool, Data% y Meta% son porcentajes del pool, no el espacio libre dentro de srv-aso. El grupo conserva además 9,88 GiB sin asignar, que no pertenecen a ningún almacenamiento.
+
+### 2. Almacenamiento
 
 En la conexion del nodo entramos en Datacenter > Storage y revisamos el almacenamiento:
 
